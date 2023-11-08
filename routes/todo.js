@@ -3,18 +3,42 @@ const todoRouter = express.Router();
 const Todo = require('../models/Todo');
 const authenticateToken = require('../middleware/authToken');
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
-todoRouter.post('/create', authenticateToken, async (req, res) => {
+app.post('/create', authenticateToken, upload.array('files', 5), async (req, res) => {
     try {
-        const { title, description, priority, category, status, userId } = req.body;
-        const date = new Date();
-        const todo = new Todo({ title, description, priority, category, status, date, userId });
-        await todo.save();
-        res.json({ message: 'Todo created successfully' });
+      const { title, description, createdAt, dueDate, priority, status, userId } = req.body;
+      const files = req.files;
+  
+      if (!title || !description || !userId) {
+        return res.status(400).json({ error: 'Missing required data.' });
+      }
+  
+      const newTodo = new Todo({
+        title,
+        description,
+        createdAt,
+        dueDate,
+        priority,
+        status,
+        userId,
+        files: files.map(file => ({
+          originalname: file.originalname,
+          mimetype: file.mimetype,
+          size: file.size,
+          buffer: file.buffer,
+        })),
+      });
+  
+      await newTodo.save();
+  
+      res.json({ message: 'Todo created with files successfully' });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to create todo' });
+      console.error('Error creating todo with files:', error);
+      res.status(500).json({ error: 'Todo creation failed' });
     }
-})
+  });
 
 todoRouter.get('/read/:userId/all', authenticateToken, async (req, res) => {
     try {

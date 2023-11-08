@@ -3,12 +3,20 @@ const mongoose = require('mongoose');
 const todoSchema = new mongoose.Schema({
     title: String,
     description: String,
-    date: Date,
+    createdAt: Date,
+    dueDate: Date,
     priority: Boolean,
-    category: String,
     status: String,
     userId: String,
-});
+    files: [
+      {
+        originalname: String,
+        mimetype: String,
+        size: Number,
+        buffer: Buffer,
+      }
+    ],
+  });
 
 const Todo = mongoose.model('Todo', todoSchema);
 
