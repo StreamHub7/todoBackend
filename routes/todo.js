@@ -7,7 +7,7 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-app.post('/create', authenticateToken, upload.array('files', 5), async (req, res) => {
+todoRouter.post('/create', authenticateToken, upload.array('files', 5), async (req, res) => {
     try {
       const { title, description, createdAt, dueDate, priority, status, userId } = req.body;
       const files = req.files;
