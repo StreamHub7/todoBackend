@@ -45,10 +45,10 @@ authRouter.post('/login', async (req, res) => {
   }
 });
 
-authRouter.get('/user/:id', (req, res) => {
+authRouter.get('/user/:id', async (req, res) => {
   try {
     const userId = req.params.id;
-    const user = User.findById(userId);
+    const user = await User.findById(userId);
     res.json(user);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch user' });
