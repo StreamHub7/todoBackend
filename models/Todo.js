@@ -5,7 +5,7 @@ const todoSchema = new mongoose.Schema({
     description: String,
     createdAt: Date,
     dueDate: Date,
-    priority: Boolean,
+    priority: String,
     status: String,
     userId: String,
     files: [
