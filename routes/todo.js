@@ -63,7 +63,7 @@ todoRouter.get('/read/:id', authenticateToken, async (req, res) => {
 todoRouter.put('/update/:id', authenticateToken, async (req, res) => {
     try {
         const todo = await Todo.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.json({message: 'Todo updated successfully', todo});
+        res.json({message: 'Todo updated successfully', todo: todo});
     } catch (error) {
         res.status(500).json({ error: 'Failed to update todo' });
     }
