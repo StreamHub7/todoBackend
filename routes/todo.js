@@ -69,6 +69,15 @@ todoRouter.put('/update/:id', authenticateToken, async (req, res) => {
     }
 })
 
+todoRouter.patch('/update/:id', authenticateToken, async (req, res) => {
+    try {
+        const todo = await Todo.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json({message: 'Todo updated successfully', todo});
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to update todo' });
+    }
+})
+
 todoRouter.delete('/delete/:id', authenticateToken, async (req, res) => {
     try {
         const todo = await Todo.findByIdAndDelete(req.params.id);
