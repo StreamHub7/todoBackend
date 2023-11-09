@@ -11,6 +11,7 @@ todoRouter.post('/create', authenticateToken, upload.array('files', 5), async (r
     try {
       const { title, description, createdAt, dueDate, priority, status, userId } = req.body;
       const files = req.files;
+      const date = new Date();
   
       if (!title || !description || !userId) {
         return res.status(400).json({ error: 'Missing required data.' });
@@ -19,7 +20,7 @@ todoRouter.post('/create', authenticateToken, upload.array('files', 5), async (r
       const newTodo = new Todo({
         title,
         description,
-        createdAt,
+        createdAt: date,
         dueDate,
         priority,
         status,
