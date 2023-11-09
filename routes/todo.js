@@ -9,7 +9,7 @@ const upload = multer({ storage });
 
 todoRouter.post('/create', authenticateToken, upload.array('files', 5), async (req, res) => {
     try {
-      const { title, description, createdAt, dueDate, priority, status, userId } = req.body;
+      const { title, description, dueDate, priority, status, userId } = req.body;
       const files = req.files || [];
       const date = new Date();
   
