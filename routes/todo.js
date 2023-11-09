@@ -13,7 +13,7 @@ todoRouter.post('/create', authenticateToken, upload.array('files', 5), async (r
       const files = req.files || [];
       const date = new Date();
   
-      if (!title || !description || !userId) {
+      if (!title || !description || !userId || !dueDate) {
         return res.status(400).json({ error: 'Missing required data.' });
       }
   
